@@ -1,41 +1,47 @@
 import { VisibilityFilters } from './actions'
+import { combineReducers } from 'redux'
+const { SHOW_ALL } = VisibilityFilters
 
 // state as simple object
-const initialState = {
-    visibilityFilter: VisibilityFilters.SHOW_ALL,
-    todos: []
+function visibilityFilter(state = SHOW_ALL, action) {
+  switch (action.type) {
+    case SET_VISIBILITY_FILTER:
+      return action.filter
+    default:
+      return state
+  }
 }
 
-function todoApp(state = initialState, action) {
-    switch (action.type) {
-      case SET_VISIBILITY_FILTER:
-        // assign state plus new change to empty obj
-        return Object.assign({}, state, {
-          visibilityFilter: action.filter
-      })
-      case ADD_TODO:
-        return Object.assign({}, state, {
-          todos: [
-            ...state.todos,
-            {
-              text: action.text,
-              completed: false
-            }
-          ]
-        })
-        // TODO: wtf is this??
-      case TOGGLE_TODO:
-        return Object.assign({}, state, {
-          todos: state.todos.map((todo, index) => {
-            if (index === action.index) {
-              return Object.assign({}, todo, {
-                completed: !todo.completed
-              })
-            }
-          return todo
+function todos(state = [], action) {
+  switch (action.type) {
+    case ADD_TODO:
+      return [
+        ...state,
+          {
+            text: action.text,
+            completed: false
+          }
+      ]
+    case TOGGLE_TODO:
+      // map onto array of todos
+      return state.map((todo, index) => {
+        // if this is the action item
+        if (index === action.index) {
+          // update todo object in a funcitonal way
+          return Object.assign({}, todo, {
+            completed: !todo.completed
           })
-        })
-      default:
-        return state
-    }
+        }
+        return todo
+      })
+    default:
+      return state
+  }
 }
+
+const todoApp = combineReducers({
+  visibilityFilter,
+  todos
+})
+
+export default todoApp
