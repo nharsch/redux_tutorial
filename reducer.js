@@ -1,5 +1,6 @@
 import { VisibilityFilters } from './actions'
 
+// state as simple object
 const initialState = {
     visibilityFilter: VisibilityFilters.SHOW_ALL,
     todos: []
@@ -8,6 +9,7 @@ const initialState = {
 function todoApp(state = initialState, action) {
     switch (action.type) {
       case SET_VISIBILITY_FILTER:
+        // assign state plus new change to empty obj
         return Object.assign({}, state, {
           visibilityFilter: action.filter
       })
@@ -21,6 +23,7 @@ function todoApp(state = initialState, action) {
             }
           ]
         })
+        // TODO: wtf is this??
       case TOGGLE_TODO:
         return Object.assign({}, state, {
           todos: state.todos.map((todo, index) => {
