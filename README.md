@@ -66,3 +66,20 @@ after:
 All combineReducers() does is generate a function that calls your 
 reducers with the slices of state selected according to their keys, 
 and combining their results into a single object again.
+
+# Store
+
+The **Store**:
+- Holds the application state
+- Allows access to state via `getState()`;
+- Allows state to be updated via `dispatch`;
+- Registers listeners via `subscribe(listener)`.
+
+
+
+
+
+
+
+
+
